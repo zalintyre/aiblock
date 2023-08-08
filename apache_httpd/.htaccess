@@ -1,0 +1,13 @@
+RewriteEngine on
+RewriteBase /
+
+RewriteRule ^ - [E=CHATGPT_REDIRECT:False]
+RewriteCond %{HTTP:User-Agent} GPTBot [NC]
+RewriteRule ^ - [E=CHATGPT_REDIRECT:True]
+RewriteCond %{REQUEST_URI} ^.*/402.html$
+RewriteRule ^ - [E=CHATGPT_REDIRECT:False]
+
+RewriteCond %{ENV:CHATGPT_REDIRECT} =True
+RewriteRule ^(.*)$ - [R=402,L]
+
+ErrorDocument 402 /402.html
